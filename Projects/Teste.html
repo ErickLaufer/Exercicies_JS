@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Consulta de CEP</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+
+<h2>Consulta de CEP</h2>
+
+<form id="consultaForm">
+  <label for="cep">CEP:</label>
+  <input type="text" id="cep" name="cep" required>
+  <button type="submit">Consultar</button>
+</form>
+
+<form id="cidadeForm">
+  <label for="cidade">Cidade:</label>
+  <input type="text" id="cidade" name="cidade" required>
+  <button type="submit">Consultar</button>
+</form>
+
+<form id="intervaloForm">
+  <label for="cepInicial">CEP Inicial:</label>
+  <input type="text" id="cepInicial" name="cepInicial" required>
+  <label for="cepFinal">CEP Final:</label>
+  <input type="text" id="cepFinal" name="cepFinal" required>
+  <button type="submit">Consultar</button>
+</form>
+
+<div id="resultado"></div>
+
+<script>
+$(document).ready(function(){
+  $("#consultaForm").submit(function(event){
+    event.preventDefault();
+    var cep = $("#cep").val();
+    consultarCEP(cep);
+  });
+
+  $("#cidadeForm").submit(function(event){
+    event.preventDefault();
+    var cidade = $("#cidade").val();
+    consultarCidade(cidade);
+  });
+
+  $("#intervaloForm").submit(function(event){
+    event.preventDefault();
+    var cepInicial = $("#cepInicial").val();
+    var cepFinal = $("#cepFinal").val();
+    consultarCEPsIntervalo(cepInicial, cepFinal);
+  });
+});
+
+function consultarCEP(cep) {
+  $.getJSON("https://viacep.com.br/ws/" + cep + "/json/", function(data) {
+    exibirResultado(data);
+  });
+}
+
+function consultarCidade(cidade) {
+  $.getJSON("https://viacep.com.br/ws/" + cidade + "/json/", function(data) {
+    exibirResultado(data);
+  });
+}
+
+function consultarCEPsIntervalo(cepInicial, cepFinal) {
+  var resultados = [];
+  for (var cep = cepInicial; cep <= cepFinal; cep++) {
+    $.ajax({
+      url: "https://viacep.com.br/ws/" + cep + "/json/",
+      async: false,
+      success: function(data) {
+        resultados.push(data);
+      }
+    });
+  }
+  exibirResultado(resultados);
+}
+
+function exibirResultado(resultado) {
+  var resultadoDiv = $("#resultado");
+  resultadoDiv.empty();
+  if (Array.isArray(resultado)) {
+    resultado.forEach(function(item) {
+      if (!item.erro) {
+        resultadoDiv.append("<p>CEP: " + item.cep + "<br>Logradouro: " + item.logradouro + "<br>Bairro: " + item.bairro + "<br>Cidade: " + item.localidade + "<br>Estado: " + item.uf + "</p>");
+      } else {
+        resultadoDiv.append("<p>CEP não encontrado para o número: " + item.cep + "</p>");
+      }
+    });
+  } else {
+    if (!resultado.erro) {
+      resultadoDiv.html("<p>CEP: " + resultado.cep + "<br>Logradouro: " + resultado.logradouro + "<br>Bairro: " + resultado.bairro + "<br>Cidade: " + resultado.localidade + "<br>Estado: " + resultado.uf + "</p>");
+    } else {
+      resultadoDiv.text("CEP não encontrado.");
+    }
+  }
+}
+</script>
+
+</body>
+</html>

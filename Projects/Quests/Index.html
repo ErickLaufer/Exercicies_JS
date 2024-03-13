@@ -1,0 +1,110 @@
+<!-- Quest 3 -->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inverter Nomes</title>
+</head>
+<body>
+
+<form id="form">
+  <label for="nome1">Nome 1:</label>
+  <input type="text" id="nome1" name="nome1"><br><br>
+  
+  <label for="nome2">Nome 2:</label>
+  <input type="text" id="nome2" name="nome2"><br><br>
+  
+  <label for="nome3">Nome 3:</label>
+  <input type="text" id="nome3" name="nome3"><br><br>
+  
+  <label for="nome4">Nome 4:</label>
+  <input type="text" id="nome4" name="nome4"><br><br>
+  
+  <label for="nome5">Nome 5:</label>
+  <input type="text" id="nome5" name="nome5"><br><br>
+  
+  <button type="button" onclick="inverterNomes()">Inverter</button>
+</form>
+
+<script>
+function inverterNomes() {
+  var nomes = [];
+  nomes.push(document.getElementById('nome1').value);
+  nomes.push(document.getElementById('nome2').value);
+  nomes.push(document.getElementById('nome3').value);
+  nomes.push(document.getElementById('nome4').value);
+  nomes.push(document.getElementById('nome5').value);
+  
+  nomes.reverse();
+  
+  document.getElementById('nome1').value = nomes[0];
+  document.getElementById('nome2').value = nomes[1];
+  document.getElementById('nome3').value = nomes[2];
+  document.getElementById('nome4').value = nomes[3];
+  document.getElementById('nome5').value = nomes[4];
+}
+</script>
+
+</body>
+</html>
+
+
+
+<!-- ---------------------------------------------------------------------------------------------- -->
+
+
+<!-- Quest 4 -->
+ 
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intercalar Palavras</title>
+</head>
+<body>
+
+<form id="form">
+  <label for="palavra1">Palavra 1:</label>
+  <input type="text" id="palavra1" name="palavra1"><br><br>
+  
+  <label for="palavra2">Palavra 2:</label>
+  <input type="text" id="palavra2" name="palavra2"><br><br>
+  
+  <label for="resultado">Resultado:</label>
+  <input type="text" id="resultado" name="resultado" disabled><br><br>
+  
+  <button type="button" onclick="intercalarPalavras()">Intercalar</button>
+</form>
+
+<script>
+function intercalarPalavras() {
+  var palavra1 = document.getElementById('palavra1').value;
+  var palavra2 = document.getElementById('palavra2').value;
+  
+  var resultado = intercalar(palavra1, palavra2);
+  
+  document.getElementById('resultado').value = resultado;
+}
+
+function intercalar(palavra1, palavra2) {
+  var resultado = '';
+  var tamanho = Math.max(palavra1.length, palavra2.length);
+  
+  for (var i = 0; i < tamanho; i++) {
+    if (palavra1[i]) {
+      resultado += palavra1[i];
+    }
+    if (palavra2[i]) {
+      resultado += palavra2[i];
+    }
+  }
+  
+  return resultado;
+}
+</script>
+</body>
+</html>
+
+<!-- Quest 5 -->
